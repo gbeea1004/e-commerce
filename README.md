@@ -1,1 +1,4 @@
-e-commerce
+# e-commerce web application
+
+## Goal
+* Study Spring Reactive programming
