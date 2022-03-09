@@ -9,11 +9,28 @@
 </head>
 <body>
 <h2>인벤토리</h2>
+<form th:method="get" th:action="@{/search}">
+    <div>
+        <label for="name">name: </label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label for="description">description: </label>
+        <input type="text" id="description" name="description">
+    </div>
+    <div>
+        <label for="useAnd">useAnd : </label>
+        <input type="checkbox" id="useAnd" name="useAnd">
+        <input type="hidden" name="_useAnd" value="on">
+    </div>
+    <button type="submit">검색</button>
+</form>
 <table>
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
+        <th>Description</th>
         <th>Price</th>
     </tr>
     </thead>
@@ -21,6 +38,7 @@
     <tr th:each="item : ${items}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name}"></td>
+        <td th:text="${item.description}"></td>
         <td th:text="${item.price}"></td>
         <td>
             <form method="post" th:action="@{'/add/' + ${item.id}}">

@@ -1,5 +1,6 @@
 package com.geon.ecommerce.controller;
 
+import com.geon.ecommerce.domain.CartType;
 import com.geon.ecommerce.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,13 +12,11 @@ import reactor.core.publisher.Mono;
 @Controller
 public class CartController {
 
-    private static final String DEFAULT_CART_ID = "My Cart";
     private final CartService cartService;
-
 
     @PostMapping("/add/{id}")
     public Mono<String> addToCart(@PathVariable String id) {
-        return cartService.addToCart(DEFAULT_CART_ID, id)
+        return cartService.addToCart(CartType.DEFAULT_CART_ID.getId(), id)
                           .thenReturn("redirect:/");
     }
 }

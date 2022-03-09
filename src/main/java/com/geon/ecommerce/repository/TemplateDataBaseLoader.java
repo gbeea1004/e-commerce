@@ -12,8 +12,8 @@ public class TemplateDataBaseLoader {
     @Bean
     public CommandLineRunner initialize(MongoOperations mongo) {
         return args -> {
-            mongo.save(new Item("itemA", 19.99));
-            mongo.save(new Item("itemB", 24.99));
+            mongo.save(new Item("itemA", "설명A", 19.99));
+            mongo.save(new Item("itemB", "설명B", 24.99));
         };
     }
 }
