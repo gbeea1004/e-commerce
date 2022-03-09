@@ -20,13 +20,12 @@ public class HomeController {
     private final CartRepository cartRepository;
     private final InventoryService inventoryService;
 
-
     @GetMapping
     public Mono<Rendering> home() {
         return Mono.just(Rendering.view("home.html")
                                   .modelAttribute("items", itemRepository.findAll())
-                                  .modelAttribute("cart", cartRepository.findById("My Cart")
-                                                                        .defaultIfEmpty(new Cart("My Cart")))
+                                  .modelAttribute("cart", cartRepository.findById(CartType.DEFAULT_CART_ID.getId())
+                                                                        .defaultIfEmpty(new Cart(CartType.DEFAULT_CART_ID.getId())))
                                   .build());
     }
 
