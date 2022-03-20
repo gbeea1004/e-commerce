@@ -17,7 +17,9 @@ public class CartService {
 
     public Mono<Cart> addToCart(String cartId, String id) {
         return cartRepository.findById(cartId)
+                             .log("foundCart")
                              .defaultIfEmpty(new Cart(cartId))
+                             .log("emptyCart")
                              .flatMap(cart -> cart.getCartItems()
                                                   .stream()
                                                   .filter(cartItem -> cartItem.getItem()
@@ -26,14 +28,18 @@ public class CartService {
                                                   .findAny()
                                                   .map(cartItem -> {
                                                       cartItem.increment();
-                                                      return Mono.just(cart);
+                                                      return Mono.just(cart).log("newCartItem");
                                                   })
                                                   .orElseGet(() -> itemRepository.findById(id)
+                                                                                 .log("fetchedItem")
                                                                                  .map(CartItem::new)
+                                                                                 .log("cartItem")
                                                                                  .map(cartItem -> {
                                                                                      cart.getCartItems().add(cartItem);
                                                                                      return cart;
-                                                                                 })))
-                             .flatMap(cartRepository::save);
+                                                                                 }).log("addedCartItem")))
+                             .log("cartWithAnotherItem")
+                             .flatMap(cartRepository::save)
+                             .log("savedCart");
     }
 }
